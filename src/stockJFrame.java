@@ -17,17 +17,7 @@ public class stockJFrame extends JFrame
 
     public static void main(String[] args)
     {
-        //creates the object for the JFrame in stockJFrame
-        stockJFrame f1 = new stockJFrame();
-
-        //Sets the Default Close Op
-        f1.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        //sets the window size
-        f1.setSize(350,170);
-
-        //sets whether the window is visible or not
-        f1.setVisible(true);
+        SwingUtilities.invokeLater(() -> new stockJFrame().setSize(350,170));
     }
 
     private stockJFrame()
@@ -85,6 +75,8 @@ public class stockJFrame extends JFrame
         continueButton.addActionListener(handler);
 
         //makes the window not resizable
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
         setResizable(false);
     }
 
@@ -110,7 +102,7 @@ public class stockJFrame extends JFrame
     }
 
     private void displayOutput()
-    {   //formats the output for the joptionpane
+    {   //formats the output for the JOptionPane
         output =  String.format("Total Buy Price: $%.2f \n" +
                   "Total Buy Commission: $%.2f\n" +
                   "Total Sell Price: $%.2f\n" +
@@ -142,12 +134,13 @@ public class stockJFrame extends JFrame
     {
         public void actionPerformed(ActionEvent event)
         {
-            //when the continue button gets pressed it recieves the text from the text fields and assigns them to proper variables
+            //when the continue button gets pressed it receives the text from the text fields and assigns them to proper variables
             if(event.getSource() == continueButton)
             {
-                //trys to parse as doubles, if fails, it notifies the user
+                //tries to parse as doubles, if fails, it notifies the user that there is an illegal character
                 try
                 {
+                    //parses all of the input fields and sets to assigned variable
                     sharesBuy = Double.parseDouble(sharesBuyTF.getText());
                     sharesBuyPrice = Double.parseDouble(sharesBuyPriceTF.getText());
                     sharesSell = Double.parseDouble(sharesSellTF.getText());
@@ -170,7 +163,7 @@ public class stockJFrame extends JFrame
                                                                                  "nor sell for less than $0.");
                 }
                 else
-                {   //if passes all the checks, gets rid of the initital window, does calculations, then displays results
+                {   //if passes all the checks, gets rid of the initial window, does calculations, then displays results
                     dispose();
                     calculateProfit();
                     displayOutput();
